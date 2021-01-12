@@ -2,7 +2,7 @@
 
 namespace Test2.Domain.Figures.Shapes
 {
-    public class Circle : Shape
+    public record Circle : Shape
     {
         public override string Type => "Circle";
         

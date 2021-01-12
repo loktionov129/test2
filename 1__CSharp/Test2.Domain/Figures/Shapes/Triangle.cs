@@ -2,7 +2,7 @@
 
 namespace Test2.Domain.Figures.Shapes
 {
-    public class Triangle : Shape
+    public record Triangle : Shape
     {
         public override string Type => "Triangle";
         

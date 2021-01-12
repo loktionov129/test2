@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using Test2.Domain.Figures.Commands;
 using Test2.Domain.Figures.Queries;
 using Test2.Domain.Figures.Services;
-using Test2.Domain.Figures.Shapes;
 
 namespace Test2.Api.Controllers
 {

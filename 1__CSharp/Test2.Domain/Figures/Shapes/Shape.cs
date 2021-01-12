@@ -1,6 +1,6 @@
 ﻿namespace Test2.Domain.Figures.Shapes
 {
-    public abstract class Shape
+    public abstract record Shape
     {
         public virtual string Type { get; }
         
