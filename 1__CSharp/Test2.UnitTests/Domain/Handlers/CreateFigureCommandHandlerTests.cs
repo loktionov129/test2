@@ -5,6 +5,7 @@ using Test2.Domain.Figures.Commands;
 using Test2.Domain.Figures.Entities;
 using Test2.Domain.Figures.Handlers;
 using Test2.Domain.Figures.Repositories;
+using Test2.Domain.Figures.Shapes;
 using Xunit;
 
 namespace Test2.UnitTests.Domain.Handlers
@@ -26,7 +27,11 @@ namespace Test2.UnitTests.Domain.Handlers
         public async Task Handle__ShouldCreateFigure__Returns3()
         {
             var handler = new CreateFigureCommandHandler(_figureRepositoryMock.Object);
-            var command = new CreateFigureCommand(@"{""r"":4,""type"":""Circle""}");
+            var shape = new Circle()
+            {
+                R = 4.0
+            };
+            var command = new CreateFigureCommand(shape);
 
             var expected = 3;
             var actual = await handler.Handle(command, CancellationToken.None);

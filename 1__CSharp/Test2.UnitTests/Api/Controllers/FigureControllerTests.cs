@@ -6,6 +6,7 @@ using Test2.Api.Controllers;
 using Test2.Domain.Figures.Commands;
 using Test2.Domain.Figures.Entities;
 using Test2.Domain.Figures.Queries;
+using Test2.Domain.Figures.Shapes;
 using Xunit;
 
 namespace Test2.UnitTests.Api.Controllers
@@ -22,17 +23,22 @@ namespace Test2.UnitTests.Api.Controllers
             _mediatorMock.Setup(mediator => mediator.Send(It.IsAny<CreateFigureCommand>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(3));
             
-            _mediatorMock.Setup(mediator => mediator.Send(It.IsAny<GetFigureByIdQuery>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(figure));
+            _mediatorMock.Setup(mediator => mediator.Send(It.IsAny<GetFigureAreaByIdQuery>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(15.0));
         }
         
         [Fact]
         public async Task Post__ShouldCreateFigure__Returns3()
         {
             var controller = new FigureController(_mediatorMock.Object);
+            var shape = new Triangle()
+            {
+                Height = 5.0,
+                Base = 6.0
+            };
 
             var expected = 3;
-            var actual = await controller.Post(@"{""height"":5,""base"":6,""type"":""Triangle""}");
+            var actual = await controller.Post(shape);
             
             Assert.Equal(expected, actual);
             _mediatorMock.Verify(x => x.Send(It.IsAny<CreateFigureCommand>(), CancellationToken.None), Times.Once);
@@ -47,7 +53,7 @@ namespace Test2.UnitTests.Api.Controllers
             var actual = await controller.Get(3);
             
             Assert.Equal(expected, actual);
-            _mediatorMock.Verify(x => x.Send(It.IsAny<GetFigureByIdQuery>(), CancellationToken.None), Times.Once);
+            _mediatorMock.Verify(x => x.Send(It.IsAny<GetFigureAreaByIdQuery>(), CancellationToken.None), Times.Once);
         }
     }
 }

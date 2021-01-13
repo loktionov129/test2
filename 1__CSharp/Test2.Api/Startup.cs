@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,7 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Test2.Infrastructure;
+using Test2.Infrastructure.JsonConverters;
 
 namespace Test2.Api
 {
@@ -21,7 +27,20 @@ namespace Test2.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson();
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
+            {
+                Converters = new List<JsonConverter>{ new ShapeConverter() },
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            
+            services.AddControllers()
+                .AddNewtonsoftJson(x =>
+                {
+                    x.SerializerSettings.Converters.Add(new ShapeConverter());
+                    x.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                });
+                
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Test2.Api", Version = "v1"});

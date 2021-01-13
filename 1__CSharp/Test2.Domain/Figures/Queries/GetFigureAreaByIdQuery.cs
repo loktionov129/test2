@@ -1,13 +1,12 @@
 ﻿using MediatR;
-using Test2.Domain.Figures.Entities;
 
 namespace Test2.Domain.Figures.Queries
 {
-    public class GetFigureByIdQuery : IRequest<Figure>
+    public class GetFigureAreaByIdQuery : IRequest<double>
     {
         public int Id { get; set; }
 
-        public GetFigureByIdQuery(int id)
+        public GetFigureAreaByIdQuery(int id)
         {
             this.Id = id;
         }
